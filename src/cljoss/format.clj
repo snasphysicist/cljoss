@@ -2,7 +2,7 @@
   "Formatters for the output from the tool"
   (:require
    [cljoss.severity :as severity]
-   [cljoss.sonatype :as sonatype] 
+   [cljoss.sonatype :as sonatype]
    [clojure.data.json :as json]
    [clojure.string :as string]))
 
@@ -17,10 +17,11 @@
   "Format the vulnerabilities in a JSON format
    roughly compatible with lein nvd"
   [vulnerabilities]
-  (json/pprint 
-   {:dependencies (map
-                   ->lein-nvd-format
-                   vulnerabilities)}))
+  (with-out-str
+    (json/pprint
+     {:dependencies (map
+                     ->lein-nvd-format
+                     vulnerabilities)})))
 
 (defn ^:private indent
   [s]
