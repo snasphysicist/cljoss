@@ -9,9 +9,9 @@
 (defn ^:private ->lein-nvd-format
   [vulnerability]
   {:fileName (:component/coordinates vulnerability)
-   :vulnerabilities {:name (:vulnerability/cve vulnerability)
-                     :severity (severity/score->
-                                (:vulnerability/cvssScore vulnerability))}})
+   :vulnerabilities [{:name (:vulnerability/cve vulnerability)
+                      :severity (severity/score->
+                                 (:vulnerability/cvssScore vulnerability))}]})
 
 (defn ->json
   "Format the vulnerabilities in a JSON format
