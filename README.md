@@ -38,3 +38,21 @@ hence the following are not goals of this project
 ## Development
 
 This project uses Leiningen, so all the usual `lein` commands apply.
+
+## Release
+
+Until the release process is automated, to release
+
+- read `CHANGELOG.md` and check the commits since the last
+   release to understand the type (major/minor/patch)
+- increase the version in `project.clj`, removing `SNAPSHOT`
+- add a new section with the version into `CHANGELOG.md`
+- commit & push to development
+- merge this into `main`
+- `git checkout main`
+- `git pull -p`
+- `lein release`
+- `git checkout development`
+- increase the patch version in `project.clj`
+    and add `-SNAPSHOT` back to the end
+- commit and push to development
