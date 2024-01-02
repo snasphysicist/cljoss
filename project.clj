@@ -11,6 +11,7 @@
                  [com.taoensso/timbre "6.3.1"]]
   :main ^:skip-aot cljoss.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all
+  :profiles {:test {:dependencies [[http-kit "2.3.0"]]}
+             :uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}}
   :repl-options {:init-ns cljoss.user})

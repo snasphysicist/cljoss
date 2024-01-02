@@ -28,7 +28,7 @@
   "Runs the complete pipeline of processing the classpath,
    requesting component reports and extracting vulnerabilities,
    then outputting the results"
-  [classpath]
+  [classpath url]
   (let [entries (cljoss.classpath/->entries
                  classpath)
         _ (logging/debug "Analysing" (count entries) "classpath entries")
@@ -42,7 +42,8 @@
                       cljoss.purl/coordinates->package-url
                       coordinates)
         reports (sonatype/request-reports-for
-                 package-urls)
+                 package-urls
+                 url)
         _ (assert-all-successful reports)
         reports (sonatype/flattened-reports
                  reports)
@@ -61,19 +62,32 @@
 (defn run
   "Find vulnerabilities and format them if found.
    Returns a map with truthy :found? if any are found
-   and the formatted output in :description."
-  [{classpath :classpath
-    output-format :format}]
+   and the formatted output in :description.
+   
+   Required inputs:
+   - :classpath is the full classpath, as string
+   - :format determines the output format, json or terminal
+   
+   Optional inputs:
+   - :url is the url of the Sonatype endpoint,
+       mostly changed for testing. 
+       Defaults to https://ossindex.sonatype.org/api/v3/component-report
+   "
+  [opts]
+  (let [{:keys [classpath format url]} opts
+        url (or 
+             url
+             "https://ossindex.sonatype.org/api/v3/component-report")]
   (assert
    (seq classpath)
    "A classpath must be provided")
-  (let [vulnerabilities (find-vulnerabilities classpath)
-        output (case output-format
+  (let [vulnerabilities (find-vulnerabilities classpath url)
+        output (case format
                  "terminal" (format/->terminal vulnerabilities)
                  "json" (format/->json vulnerabilities))]
     (when (seq vulnerabilities)
       {:found? true
-       :description output})))
+       :description output}))))
 
 (def ^:private cli-flags
 [["-c" "--classpath CLASSPATH" "Project classpath"

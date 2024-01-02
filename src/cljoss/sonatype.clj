@@ -7,14 +7,11 @@
    [clojure.string :as string]
    [taoensso.timbre :as logging]))
 
-(def ^:private url
-  "https://ossindex.sonatype.org/api/v3/component-report")
-
 (defn ^:private request-reports-for*
   "Requests reports for all package urls in a single
    request, will therefore fail if there are more
    urls than Sonatype allows (currently 128)"
-  [package-urls]
+  [package-urls url]
   (logging/debug 
    "Requesting reports for " 
    (count package-urls) 
@@ -29,16 +26,29 @@
     :throw-exceptions false
     :cookie-policy :none}))
 
+(defn ^:private json-read-str-print-failure
+  "Attempts to read the json string, on error
+   rethrows with the full input in the message"
+  [content]
+  (try
+    (json/read-str
+     content
+     :key-fn keyword)
+    (catch Exception e 
+      (throw 
+       (Exception. 
+        (str 
+         "Failed to deserialise content '"
+         content
+         "'")
+        e)))))
+
 (defn ^:private body-deserialised
   [report]
   (update-in
    report
    [:body]
-   (fn 
-     [body]
-     (json/read-str
-      body
-      :key-fn keyword))))
+   json-read-str-print-failure))
 
 (defn ^:private code->error
   "Converts a HTTP status code to an error keyword, if any"
@@ -68,13 +78,13 @@
    Each response will contain :success boolean,
    :error if the request failed,
    and :reports as a map."
-  [package-urls]
+  [package-urls url]
   (let [_ (logging/debug (count package-urls) "packages")
         batches (partition-all 100 package-urls)
         _ (logging/debug (count batches) "batches")
         reports (doall
                  (map
-                  request-reports-for*
+                  #(request-reports-for* % url)
                   batches))
         reports (map
                  body-deserialised
