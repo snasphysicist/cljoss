@@ -9,7 +9,15 @@ any language that runs on the JVM.
 
 ## Usage
 
-TODO: create binaries, upload to clojars
+This tool is available on Clojars.
+
+Current recommended usage is to write a wrapper
+script in your project, which builds the project 
+classpath and calls `cljoss.core/run` with that
+classpath and your chosen format.
+
+Binaries, `lein` integrations, etc...
+may become available in future releases.
 
 ## Goals
 
