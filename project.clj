@@ -1,4 +1,4 @@
-(defproject pw.snas/cljoss "1.0.0"
+(defproject pw.snas/cljoss "1.0.1-SNAPSHOT"
   :description "Finds vulnerabilities in jars on classpaths"
   :url "https://github.com/snasphysicist/cljoss"
   :license {:name "MIT"
