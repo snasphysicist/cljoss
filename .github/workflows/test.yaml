@@ -14,7 +14,7 @@ jobs:
     steps:
       - run: curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
       - run: chmod +x linux-install.sh
-      - run: ./linux-install.sh
+      - run: sudo ./linux-install.sh
       - run: curl -L -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
       - run: chmod +x lein
       - run: sudo mv lein /usr/local/bin
