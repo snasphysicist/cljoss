@@ -1,7 +1,7 @@
 (ns cljoss.sonatype-mock
   (:require
-   [org.httpkit.server :as httpkit]
-   [clojure.data.json :as json]))
+   [clojure.data.json :as json]
+   [org.httpkit.server :as httpkit]))
 
 (def ^:private reports 
   "Reports for the following three packages
@@ -93,6 +93,8 @@
    :body (json/write-str reports)})
 
 (defn start!
+  "Starts the sonatype mock, returning the port on which
+   it was started as :port and a function to stop it as :stop"
   []
   (let [port 8284
         stop! (httpkit/run-server handler {:port port})]

@@ -1,9 +1,9 @@
 (ns cljoss.scan-test
   (:require
-   [clojure.test :refer [deftest is]]
    [cljoss.core :as core]
    [cljoss.sonatype-mock :as mock]
-   [clojure.data.json :as json]))
+   [clojure.data.json :as json]
+   [clojure.test :refer [deftest is]]))
 
 (deftest finds-vulnerabilities-test
   (let [{:keys [stop! port]} (mock/start!)]
