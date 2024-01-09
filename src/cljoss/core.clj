@@ -6,9 +6,9 @@
    [cljoss.format :as format]
    [cljoss.purl :as purl]
    [cljoss.sonatype :as sonatype]
+   [clojure.string :as string]
    [clojure.tools.cli :as cli]
-   [taoensso.timbre :as logging]
-   [clojure.string :as string]))
+   [taoensso.timbre :as logging]))
 
 (defn ^:private assert-all-successful
   "Throws if the reports did not all complete succesfully"
@@ -122,6 +122,7 @@
     (:options options)))
 
 (defn -main
+  "Entrypoint for the cljoss CLI"
   [& args]
   (let [options (cli/parse-opts args cli-flags)
         {:keys [classpath output]} (validated-options options)
