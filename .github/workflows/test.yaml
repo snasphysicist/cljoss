@@ -12,10 +12,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
-      - run: chmod +x linux-install.sh
-      - run: sudo ./linux-install.sh
-      - run: curl -L -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
-      - run: chmod +x lein
-      - run: sudo mv lein /usr/local/bin
-      - run: lein test
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Download Clojure installer
+        run: curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
+      - name: Make Clojure installer executable
+        run: chmod +x linux-install.sh
+      - name: Install Clojure
+        run: sudo ./linux-install.sh
+      - name: Download Leiningen
+        run: curl -L -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+      - name: Make Leiningen executable
+        run: chmod +x lein
+      - name: Make Leiningen available on the path
+        run: sudo mv lein /usr/local/bin
+      - name: Test
+        run: lein test
