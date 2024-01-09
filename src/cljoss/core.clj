@@ -7,7 +7,8 @@
    [cljoss.purl :as purl]
    [cljoss.sonatype :as sonatype]
    [clojure.tools.cli :as cli]
-   [taoensso.timbre :as logging]))
+   [taoensso.timbre :as logging]
+   [clojure.string :as string]))
 
 (defn ^:private assert-all-successful
   "Throws if the reports did not all complete succesfully"
@@ -89,23 +90,46 @@
       {:found? true
        :description output}))))
 
+(defn ^:private on-failure!
+  [message]
+  (println message)
+  (System/exit 1))
+
 (def ^:private cli-flags
 [["-c" "--classpath CLASSPATH" "Project classpath"
   "-o" "--output OUTPUT" "Output format (terminal/json)"]])
 
+(defn ^:private validated-options
+  "Throws if the options are not valid, 
+   else returns :options from the input"
+  [options]
+  (let [classpath (:classpath (:options options))
+        classpath-message (when 
+                           (string/blank? classpath) 
+                            "A classpath is required")
+        output (:output (:options options))
+        output-message (when-not
+                        (#{"terminal" "json"} output)
+                         "Output must be 'terminal' or 'json'")
+        messages (remove
+                  nil?
+                  [classpath-message output-message])]
+    (when (seq messages)
+      (on-failure! 
+       (string/join 
+        "; " 
+        messages)))
+    (:options options)))
+
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
   (let [options (cli/parse-opts args cli-flags)
-        classpath (-> options :options :classpath)
-        output (-> options :options :output)
+        {:keys [classpath output]} (validated-options options)
         {:keys [:found? :description]} 
         (run {:classpath classpath
               :format output})]
     (if found?
-      (do 
-        (println description)
-        (System/exit 1))
+      (on-failure! description)
       (do
         (println "No vulnerabilities found")
         (System/exit 0)))))
