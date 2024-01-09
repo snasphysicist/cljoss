@@ -39,6 +39,12 @@ hence the following are not goals of this project
 
 This project uses Leiningen, so all the usual `lein` commands apply.
 
+### Linting
+
+The Leiningen plugin for clj-kondo seems to fall far behind clj-kondo
+latest, so use of a local install is preferred. Linting in CI
+will always be done with the latest version.
+
 ## Release
 
 Until the release process is automated, to release
