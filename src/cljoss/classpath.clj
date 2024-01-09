@@ -1,5 +1,5 @@
 (ns cljoss.classpath
-  "For dealing with classpaths" 
+  "For dealing with classpaths"
   (:require [clojure.string :as string]))
 
 (defn ->entries

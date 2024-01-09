@@ -76,19 +76,19 @@
    "
   [opts]
   (let [{:keys [classpath format url]} opts
-        url (or 
+        url (or
              url
              "https://ossindex.sonatype.org/api/v3/component-report")]
-  (assert
-   (seq classpath)
-   "A classpath must be provided")
-  (let [vulnerabilities (find-vulnerabilities classpath url)
-        output (case format
-                 "terminal" (format/->terminal vulnerabilities)
-                 "json" (format/->json vulnerabilities))]
-    (when (seq vulnerabilities)
-      {:found? true
-       :description output}))))
+    (assert
+     (seq classpath)
+     "A classpath must be provided")
+    (let [vulnerabilities (find-vulnerabilities classpath url)
+          output (case format
+                   "terminal" (format/->terminal vulnerabilities)
+                   "json" (format/->json vulnerabilities))]
+      (when (seq vulnerabilities)
+        {:found? true
+         :description output}))))
 
 (defn ^:private on-failure!
   [message]
@@ -96,16 +96,16 @@
   (System/exit 1))
 
 (def ^:private cli-flags
-[["-c" "--classpath CLASSPATH" "Project classpath"
-  "-o" "--output OUTPUT" "Output format (terminal/json)"]])
+  [["-c" "--classpath CLASSPATH" "Project classpath"
+    "-o" "--output OUTPUT" "Output format (terminal/json)"]])
 
 (defn ^:private validated-options
   "Throws if the options are not valid, 
    else returns :options from the input"
   [options]
   (let [classpath (:classpath (:options options))
-        classpath-message (when 
-                           (string/blank? classpath) 
+        classpath-message (when
+                           (string/blank? classpath)
                             "A classpath is required")
         output (:output (:options options))
         output-message (when-not
@@ -115,9 +115,9 @@
                   nil?
                   [classpath-message output-message])]
     (when (seq messages)
-      (on-failure! 
-       (string/join 
-        "; " 
+      (on-failure!
+       (string/join
+        "; "
         messages)))
     (:options options)))
 
@@ -126,7 +126,7 @@
   [& args]
   (let [options (cli/parse-opts args cli-flags)
         {:keys [classpath output]} (validated-options options)
-        {:keys [:found? :description]} 
+        {:keys [:found? :description]}
         (run {:classpath classpath
               :format output})]
     (if found?

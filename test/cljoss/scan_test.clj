@@ -15,15 +15,15 @@
                        ":"
                        "/home/foo/.m2/repository/mysql/mysql-connector-java/8.0.16/mysql-connector-java-8.0.16.jar")
             {found? :found?
-             description :description} 
-            (core/run {:classpath classpath 
-                       :format "json" 
+             description :description}
+            (core/run {:classpath classpath
+                       :format "json"
                        :url (str "http://localhost:" port "/")})
             report (json/read-str description :key-fn keyword)
             vulnerabilities (:dependencies report)]
         (is found?)
         (is (= 4 (count vulnerabilities)))
-        (is 
+        (is
          (=
           (set vulnerabilities)
           #{{:fileName "pkg:maven/mysql/mysql-connector-java@8.0.16",

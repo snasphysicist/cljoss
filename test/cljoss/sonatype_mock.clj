@@ -3,14 +3,14 @@
    [clojure.data.json :as json]
    [org.httpkit.server :as httpkit]))
 
-(def ^:private reports 
+(def ^:private reports
   "Reports for the following three packages
    obtained on 2024-01-02
    
    - org/apache/xmlgraphics/batik-css/1.16/batik-css-1.16.jar
    - org/eclipse/jetty/jetty-util/9.4.48.v20220622/jetty-util-9.4.48.v20220602.jar
    - mysql/mysql-connector-java/8.0.16/mysql-connector-java-8.0.16.jar"
-  [{"coordinates" "pkg:maven/org.apache.xmlgraphics/batik-css@1.16", 
+  [{"coordinates" "pkg:maven/org.apache.xmlgraphics/batik-css@1.16",
     "description" "",
     "reference"
     "https://ossindex.sonatype.org/component/pkg:maven/org.apache.xmlgraphics/batik-css@1.16?utm_source=apache-httpclient&utm_medium=integration&utm_content=4.5.13",

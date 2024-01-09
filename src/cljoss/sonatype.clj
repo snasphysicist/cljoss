@@ -12,10 +12,10 @@
    request, will therefore fail if there are more
    urls than Sonatype allows (currently 128)"
   [package-urls url]
-  (logging/debug 
-   "Requesting reports for " 
-   (count package-urls) 
-   "packages : " 
+  (logging/debug
+   "Requesting reports for "
+   (count package-urls)
+   "packages : "
    package-urls)
   (client/request
    {:method :post
@@ -34,10 +34,10 @@
     (json/read-str
      content
      :key-fn keyword)
-    (catch Exception e 
-      (throw 
-       (Exception. 
-        (str 
+    (catch Exception e
+      (throw
+       (Exception.
+        (str
          "Failed to deserialise content '"
          content
          "'")
@@ -53,8 +53,8 @@
 (defn ^:private code->error
   "Converts a HTTP status code to an error keyword, if any"
   [status-code]
-  (get 
-   {200 nil 
+  (get
+   {200 nil
     429 :rate-limited}
    status-code
    :unknown))
@@ -117,8 +117,8 @@
    (fn
      [vulnerability]
      (merge
-      (maps/namespace-prefix-keys 
-       component-report 
+      (maps/namespace-prefix-keys
+       component-report
        :component)
       (maps/namespace-prefix-keys
        vulnerability
