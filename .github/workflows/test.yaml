@@ -1,0 +1,15 @@
+name: Run All Tests
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  push:
+    branches:
+      - development
+      - main
+jobs:
+  test:
+    runs-on: clojure:lein-2.10.0
+    steps:
+      - run: lein test
