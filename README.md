@@ -45,6 +45,13 @@ The Leiningen plugin for clj-kondo seems to fall far behind clj-kondo
 latest, so use of a local install is preferred. Linting in CI
 will always be done with the latest version.
 
+### Formatting
+
+This project is formatted with 
+[`cljfmt`](https://github.com/weavejester/cljfmt).
+It's recommended to use the latest version of the binary,
+which is how formatting will be checked in CI.
+
 ## Release
 
 Until the release process is automated, to release
