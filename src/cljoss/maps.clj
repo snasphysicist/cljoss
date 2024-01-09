@@ -12,7 +12,9 @@
   [prefix k]
   (keyword (name prefix) (name k)))
 
-(defn namespace-prefix-keys
+(defn namespace-prefix-keys 
+  "Prefixes all keys in `m` which are not already
+   qualified with the given namespace `n`"
   [m n]
   (reduce-kv
    (fn
