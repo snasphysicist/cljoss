@@ -41,9 +41,13 @@ This project uses Leiningen, so all the usual `lein` commands apply.
 
 ### Linting
 
-The Leiningen plugin for clj-kondo seems to fall far behind clj-kondo
-latest, so use of a local install is preferred. Linting in CI
-will always be done with the latest version.
+This project is linted with 
+[`clj-kondo`](https://github.com/clj-kondo/clj-kondo).
+
+The Leiningen plugin for `clj-kondo` 
+seems to fall far behind `clj-kondo`
+latest, so use of a local install is preferred. 
+Linting in CI will always be done with the latest version.
 
 ### Formatting
 
